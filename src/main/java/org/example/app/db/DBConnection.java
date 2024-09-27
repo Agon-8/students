@@ -13,7 +13,7 @@ public class DBConnection {
             String user = "postgres";
             String password = "123456";
              this.connection = DriverManager.getConnection(dbUrl,user,password);
-            System.out.println("Connected to postgres database susscesfully");
+//            System.out.println("Connected to postgres database susscesfully");
 
         } catch (SQLException e) {
             System.out.println("We couldn connent to database.");
@@ -22,7 +22,8 @@ public class DBConnection {
         return connection;
     }
     public  Connection getConnection(){
-        return this.connection;
+
+        return this.connect();
     }
 
 }
