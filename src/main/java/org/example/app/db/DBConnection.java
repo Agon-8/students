@@ -16,7 +16,7 @@ public class DBConnection {
 //            System.out.println("Connected to postgres database susscesfully");
 
         } catch (SQLException e) {
-            System.out.println("We couldn connent to database.sdsdsds");
+            System.out.println("We couldn connent to database.s");
             e.printStackTrace();
         }
         return connection;
