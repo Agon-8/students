@@ -15,6 +15,8 @@ public class DBConnection {
              this.connection = DriverManager.getConnection(dbUrl,user,password);
 //            System.out.println("Connected to postgres database susscesfully");
 
+
+
         } catch (SQLException e) {
             System.out.println("We couldn connent to database.s");
             e.printStackTrace();
