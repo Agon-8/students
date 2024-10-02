@@ -40,19 +40,20 @@ public class Main {
         DBConnection dbc = new DBConnection();
 
         StudentRepository studentRepo = new StudentRepository(dbc);
-        studentRepo.createStudent(new Student("Rigon", 17));
-//        Student studenti = studentRepo.findStudentById(5L);
-        //System.out.println(studenti);
-        System.out.println(studentRepo.kthejTeGjitheStudentet());
-        while (true) {
 
+//        studentRepo.createStudent(new Student("Rigon", 17));
+
+        Student newStudent = new Student(0L,"Hajdar",21,"Hasani","949093","Podujeve",'M',"Pitagoras");
+        studentRepo.createStudent(newStudent);
+
+        System.out.println(studentRepo.kthejTeGjitheStudentet());
+
+        while (true) {
 
             System.out.println("Press 1 if u want to see the list of students");
             System.out.println("Press 2 if u want to uptade a Students");
             System.out.println("Press 3 if u want to delete a Students");
             System.out.println("Press x if u want to exit");
-
-
 
             String input = scanner.nextLine();
             if(input.equals("x")) {
