@@ -40,19 +40,20 @@ public class Main {
         DBConnection dbc = new DBConnection();
 
         StudentRepository studentRepo = new StudentRepository(dbc);
-        studentRepo.createStudent(new Student("Rigon", 17));
-//        Student studenti = studentRepo.findStudentById(5L);
-        //System.out.println(studenti);
-        System.out.println(studentRepo.kthejTeGjitheStudentet());
-        while (true) {
 
+//        studentRepo.createStudent(new Student("Rigon", 17));
+
+//        Student newStudent = new Student(0L,"Hajdar",21,"Hasani","949093","Podujeve",'M',"Pitagoras");
+//        studentRepo.createStudent(newStudent);
+
+        System.out.println(studentRepo.kthejTeGjitheStudentet());
+
+        while (true) {
 
             System.out.println("Press 1 if u want to see the list of students");
             System.out.println("Press 2 if u want to uptade a Students");
             System.out.println("Press 3 if u want to delete a Students");
             System.out.println("Press x if u want to exit");
-
-
 
             String input = scanner.nextLine();
             if(input.equals("x")) {
@@ -71,7 +72,7 @@ public class Main {
                     System.out.println("Student was not found");
                 } else {
                     System.out.println(studenti);
-                    System.out.println("Please tell new name and new age");
+                    System.out.println("Please  tell new name and new age");
                     System.out.println("If u dont want to change plase leave it blank");
                     System.out.println("Name:");
                     String emriIRi = scanner.nextLine();
@@ -81,6 +82,18 @@ public class Main {
                     if (!moshaInput.isEmpty()) {
                         moshaERe = Integer.valueOf(moshaInput);
                     }
+                    System.out.println("Last name:");
+                    String lastNameR = scanner.nextLine();
+                    System.out.println("Phone:");
+                    String phoneR = scanner.nextLine();
+                    System.out.println("Gender:");
+                    String genderR = scanner.nextLine();
+                    System.out.println("Birthplace:");
+                    String birthPlaceR = scanner.nextLine();
+                    System.out.println("Course name:");
+                    String courseNameR = scanner.nextLine();
+
+
                     Student updatedStudent = new Student();
                     if (emriIRi.isEmpty()) {
                         updatedStudent.setName(studenti.getName());
@@ -92,7 +105,35 @@ public class Main {
                     } else {
                         updatedStudent.setAge(moshaERe);
                     }
-                    studentRepo.updateStudent(studenti.getId(), updatedStudent);
+                    if (lastNameR.isEmpty()){
+                        updatedStudent.setLastName(studenti.getLastName());
+                    } else {
+                        updatedStudent.setLastName(lastNameR);
+                    }
+                    if (phoneR.isEmpty()){
+                        updatedStudent.setPhone(studenti.getPhone());
+                    } else {
+                        updatedStudent.setPhone(phoneR);
+                    }
+                    if (genderR.isEmpty()){
+                        updatedStudent.setGender(studenti.getGender());
+                    } else {
+                        updatedStudent.setGender(genderR.charAt(0));
+
+                    }
+                    if (birthPlaceR.isEmpty()){
+                        updatedStudent.setBirthplace(studenti.getBirthplace());
+                    } else {
+                        updatedStudent.setBirthplace(birthPlaceR);
+                    }
+                    if (courseNameR.isEmpty()){
+                        updatedStudent.setCourseName(studenti.getCourseName());
+                    } else {
+                        updatedStudent.setCourseName(courseNameR);
+                    }
+
+
+                        studentRepo.updateStudent(studenti.getId(), updatedStudent);
                 }
             }else if(input.equals("3")){
                 System.out.println("Which student should I delete ,tell me the id");

@@ -18,7 +18,7 @@ public class DBConnection {
 
 
         } catch (SQLException e) {
-            System.out.println("We couldn connent to database.sdsdsd");
+            System.out.println("We couldn connent to database");
             e.printStackTrace();
         }
         return connection;
