@@ -89,17 +89,36 @@ public class StudentRepository {
         return studentList;
     }
     public void updateStudent(Long id ,Student student){
-        String query = "Update Studentet set name = ? , age = ? where id = ?";
+        String query = "Update Studentet set name = ? , age = ?,last_name = ?,phone = ?,birthplace = ?,gender = ?,course_name = ? where id = ?";
 
 
         try(Connection lidhja = this.dbConnection.getConnection();
             PreparedStatement urdheri = lidhja.prepareStatement(query)
 
         ){
+            char gender = student.getGender();
+            String genderStr = student.getGender() +"";
+//           if(!genderStr.isEmpty()){
+//                gender = genderStr.charAt(0);
+//            }
+            System.out.println(gender + ":" + student.getGender());
+            if(gender == ' ') {
+                genderStr = null;
+            } else {
+                genderStr = genderStr.charAt(0) + "";
+            }
+
 
             urdheri.setString(1,student.getName());
             urdheri.setInt(2,student.getAge());
-            urdheri.setLong(3,id);
+            urdheri.setString(3,student.getLastName());
+            urdheri.setString(4,student.getPhone());
+            urdheri.setString(5,student.getBirthplace());
+            urdheri.setString(6, genderStr);
+            urdheri.setString(7,student.getCourseName());
+            urdheri.setLong(8,id);
+
+
             urdheri.executeUpdate();
         }catch (SQLException e){
             System.out.println("Nuk mujta me ndryshu studentin");
