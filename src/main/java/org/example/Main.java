@@ -72,7 +72,7 @@ public class Main {
                     System.out.println("Student was not found");
                 } else {
                     System.out.println(studenti);
-                    System.out.println("Please tell new name and new age");
+                    System.out.println("Please  tell new name and new age");
                     System.out.println("If u dont want to change plase leave it blank");
                     System.out.println("Name:");
                     String emriIRi = scanner.nextLine();
