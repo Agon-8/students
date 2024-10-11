@@ -45,7 +45,15 @@ public class StudentRepository {
             urdheri.setLong(1,id);
             ResultSet response = urdheri.executeQuery();
             if(response.next()){
-                return new Student(response.getLong("id"),response.getString("name"),response.getInt("age"));
+                String genderRespStr = response.getString("gender");
+                Character genderResponse = null;
+                if(genderRespStr != null) {
+                    genderResponse = genderRespStr.charAt(0);
+                }
+
+                //                return new Student(response.getLong("id"),response.getString("name"),response.getInt("age"));
+                return new Student(response.getLong("id"), response.getString("name"), response.getInt("age"),response.getString("last_name"),response.getString("phone"),response.getString("birthplace"), genderResponse,response.getString("course_name"));
+
             }
         }catch (SQLException e){
             System.out.println("Nuk mujta me shtu studentin");
@@ -96,17 +104,18 @@ public class StudentRepository {
             PreparedStatement urdheri = lidhja.prepareStatement(query)
 
         ){
-            char gender = student.getGender();
+//            Character gender = student.getGender();
             String genderStr = student.getGender() +"";
-//           if(!genderStr.isEmpty()){
-//                gender = genderStr.charAt(0);
+//            System.out.println(student + " :" + student.getGender());
+////           if(!genderStr.isEmpty()){
+////                gender = genderStr.charAt(0);
+////            }
+//            System.out.println(gender + ":" + student.getGender());
+//            if(gender == ' ') {
+//                genderStr = null;
+//            } else {
+//                genderStr = genderStr.charAt(0) + "";
 //            }
-            System.out.println(gender + ":" + student.getGender());
-            if(gender == ' ') {
-                genderStr = null;
-            } else {
-                genderStr = genderStr.charAt(0) + "";
-            }
 
 
             urdheri.setString(1,student.getName());
@@ -114,7 +123,7 @@ public class StudentRepository {
             urdheri.setString(3,student.getLastName());
             urdheri.setString(4,student.getPhone());
             urdheri.setString(5,student.getBirthplace());
-            urdheri.setString(6, genderStr);
+            urdheri.setString(6, genderStr.charAt(0)+"");
             urdheri.setString(7,student.getCourseName());
             urdheri.setLong(8,id);
 

@@ -7,7 +7,7 @@ public class Student {
     private String lastName;
     private String phone;
     private String birthplace;
-    private char gender;
+    private Character gender;
     private String courseName;
 
     public Student(Long id, String name, int age, String lastName, String phone, String birthplace, Character gender, String courseName) {
@@ -45,11 +45,11 @@ public class Student {
         this.birthplace = birthplace;
     }
 
-    public char getGender() {
+    public Character getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(Character gender) {
         this.gender = gender;
     }
 
