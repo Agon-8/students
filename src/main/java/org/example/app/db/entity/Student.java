@@ -1,5 +1,7 @@
 package org.example.app.db.entity;
 
+import java.util.List;
+
 public class Student {
     private Long id;
     private String name;
@@ -9,6 +11,7 @@ public class Student {
     private String birthplace;
     private Character gender;
     private String courseName;
+    private List<Pagesa> pagesat;
 
     public Student(Long id, String name, int age, String lastName, String phone, String birthplace, Character gender, String courseName) {
         this.id = id;
@@ -19,6 +22,14 @@ public class Student {
         this.birthplace = birthplace;
         this.gender = gender;
         this.courseName = courseName;
+    }
+
+    public List<Pagesa> getPagesat() {
+        return pagesat;
+    }
+
+    public void setPagesat(List<Pagesa> pagesat) {
+        this.pagesat = pagesat;
     }
 
     public String getLastName() {
@@ -104,19 +115,19 @@ public class Student {
         this.age = age;
     }
 
-        @Override
-        public String toString () {
-            return "Student{" +
-                    "id=" + id +
-                    ", name='" + name + '\'' +
-                    ", age=" + age +
-                    ", lastName='" + lastName + '\'' +
-                    ", phone='" + phone + '\'' +
-                    ", birthplace='" + birthplace + '\'' +
-                    ", gender=" + gender +
-                    ", courseName='" + courseName + '\'' +
-                    '}';
-
-        }
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", lastName='" + lastName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", birthplace='" + birthplace + '\'' +
+                ", gender=" + gender +
+                ", courseName='" + courseName + '\'' +
+                ", pagesat=" + pagesat +
+                '}';
     }
+}
 

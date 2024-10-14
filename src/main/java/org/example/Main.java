@@ -23,7 +23,9 @@ package org.example;
 
 import com.sun.jdi.LongValue;
 import org.example.app.db.DBConnection;
+import org.example.app.db.entity.Pagesa;
 import org.example.app.db.entity.Student;
+import org.example.app.repository.PagesaRepository;
 import org.example.app.repository.StudentRepository;
 
 import java.util.List;
@@ -44,6 +46,7 @@ public class Main {
         DBConnection dbc = new DBConnection();
 
         StudentRepository studentRepo = new StudentRepository(dbc);
+        PagesaRepository pagesaRepo = new PagesaRepository(dbc);
 
 //        studentRepo.createStudent(new Student("Rigon", 17));
 
@@ -57,6 +60,7 @@ public class Main {
             System.out.println("Press 1 if u want to see the list of students");
             System.out.println("Press 2 if u want to uptade a Students");
             System.out.println("Press 3 if u want to delete a Students");
+            System.out.println("Press 4 if you want to see a Student");
             System.out.println("Press x if u want to exit");
 
             String input = scanner.nextLine();
@@ -71,7 +75,7 @@ public class Main {
             } else if (input.equals("2")) {
                 System.out.println("Which student should I update ,tell me the id");
                 String id = scanner.nextLine();
-                Student studenti = studentRepo.findStudentById(Long.valueOf(id));
+                Student studenti = studentRepo.findStudentById(Long.valueOf(id),false);
                 if (studenti == null) {
                     System.out.println("Student was not found");
                 } else {
@@ -142,12 +146,33 @@ public class Main {
             }else if(input.equals("3")){
                 System.out.println("Which student should I delete ,tell me the id");
                 String id = scanner.nextLine();
-                Student studenti = studentRepo.findStudentById(Long.valueOf(id));
+                Student studenti = studentRepo.findStudentById(Long.valueOf(id),false);
                 if(studenti == null){
                     System.out.println("User has not been found");
                 }else{
                     studentRepo.deleteStudent(Long.valueOf(id));
                 }
+            } else if (input.equals("4")) {
+                System.out.println("Which student do you want to see,tell me the id?");
+                String id = scanner.nextLine();
+//                Student studenti = studentRepo.findStudentById(Long.valueOf(id));
+//                System.out.println(studenti);
+                System.out.println("If you want to see the payment of students writte y,otherwise press enter.");
+                String answ = scanner.nextLine();
+//                if(answ.equals("y")){
+//                    List<Pagesa> pagesat = pagesaRepo.kthejPagesatEStudentit(studenti.getId());
+////                    System.out.println("Pagesat :");
+////                    pagesat.stream().forEach((Pagesa p) -> {
+////                        System.out.println(p);
+////                    });
+//                    studenti.setPagesat(pagesat);
+//
+//                }
+                Student studenti = studentRepo.findStudentById(Long.valueOf(id),answ.equals("y"));
+                System.out.println(studenti);
+
+                //if you want to see the payments of students writte y,otherwise press enter
+
             }
         }
     }
