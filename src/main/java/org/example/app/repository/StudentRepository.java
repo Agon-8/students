@@ -1,6 +1,7 @@
 package org.example.app.repository;
 
 import org.example.app.db.DBConnection;
+import org.example.app.db.entity.Pagesa;
 import org.example.app.db.entity.Student;
 
 import java.sql.*;
@@ -35,32 +36,109 @@ public class StudentRepository {
             e.printStackTrace();
         }
     }
-    public Student findStudentById(Long id){
-        String query = "select * from studentet where id = ?";
+    public Student findStudentById(Long id, boolean includePayments) {
+        String query = "select s.id as studentId, s.name as name, s.age as age, s.last_name as lastName, s.phone as phone, s.birthplace as birthplace, s.gender as gender, s.course_name as courseName ";
 
-        try(Connection lidhja = this.dbConnection.getConnection();
-            PreparedStatement urdheri = lidhja.prepareStatement(query)
+        if (includePayments) {
+            query += ", p.id as pagesaId, p.dataEFillimit as dataEFillimit, p.dataEMbarimit as dataEMbarimit, p.eshtePaguar as eshtePaguar, p.paguarMe as paguarMe ";
+            query += "from studentet s left join pagesat p on s.id = p.studentId ";
+        }else {
+            query += "from studentet s ";
+        }
 
-        ){
-            urdheri.setLong(1,id);
+        query += "where s.id = ? ";
+        System.out.println(query);
+
+        try (Connection lidhja = this.dbConnection.getConnection();
+             PreparedStatement urdheri = lidhja.prepareStatement(query)) {
+
+            urdheri.setLong(1, id);
             ResultSet response = urdheri.executeQuery();
-            if(response.next()){
-                String genderRespStr = response.getString("gender");
-                Character genderResponse = null;
-                if(genderRespStr != null) {
-                    genderResponse = genderRespStr.charAt(0);
+
+            Student student = null;
+            List<Pagesa> pagesat = new ArrayList<>();
+
+            while (response.next()) {
+                if (student == null) {
+                    String genderRespStr = response.getString("gender");
+                    Character genderResponse = null;
+                    if (genderRespStr != null) {
+                        genderResponse = genderRespStr.charAt(0);
+                    }
+
+                    student = new Student(
+                            response.getLong("studentId"),
+                            response.getString("name"),
+                            response.getInt("age"),
+                            response.getString("lastName"),
+                            response.getString("phone"),
+                            response.getString("birthplace"),
+                            genderResponse,
+                            response.getString("courseName")
+                    );
                 }
 
-                //                return new Student(response.getLong("id"),response.getString("name"),response.getInt("age"));
-                return new Student(response.getLong("id"), response.getString("name"), response.getInt("age"),response.getString("last_name"),response.getString("phone"),response.getString("birthplace"), genderResponse,response.getString("course_name"));
-
+                if (includePayments) {
+                    Long paymentId = response.getLong("pagesaId");
+                    if (paymentId != 0) {
+                        Pagesa pagesa = new Pagesa(
+                                paymentId,
+                                response.getLong("studentId"),
+                                response.getDate("dataEFillimit"),
+                                response.getDate("dataEMbarimit"),
+                                response.getBoolean("eshtePaguar"),
+                                response.getTimestamp("paguarMe")
+                        );
+                        pagesat.add(pagesa);
+                    }
+                }
             }
-        }catch (SQLException e){
-            System.out.println("Nuk mujta me shtu studentin");
+
+            if (student != null && includePayments) {
+                student.setPagesat(pagesat);
+            }
+
+            return student;
+
+        } catch (SQLException e) {
+            System.out.println("Nuk mujta me gjet studentin.");
             e.printStackTrace();
         }
         return null;
     }
+
+//    public Student findStudentById(Long id,boolean includePayments){
+//        String query = "select s.id as studentId, s.name as name, s.age as age, s.last_name as lastName, s.phone as phone, s.birthplace as birthplace, s.gender as gender, s.course_name as courseName from studentet s ";
+//        if(includePayments){
+//            query += "left join pagesat p on s.id = p.studentId  ";
+//        }
+//        query += "where s.id = ?";
+//
+//
+//
+//        try(Connection lidhja = this.dbConnection.getConnection();
+//            PreparedStatement urdheri = lidhja.prepareStatement(query)
+//
+//        ){
+//            urdheri.setLong(1,id);
+//            ResultSet response = urdheri.executeQuery();
+//            if(response.next()){
+//                String genderRespStr = response.getString("gender");
+//                Character genderResponse = null;
+//                if(genderRespStr != null) {
+//                    genderResponse = genderRespStr.charAt(0);
+//                }
+//
+//                //                return new Student(response.getLong("id"),response.getString("name"),response.getInt("age"));
+//                return new Student(response.getLong("id"), response.getString("name"), response.getInt("age"),response.getString("last_name"),response.getString("phone"),response.getString("birthplace"), genderResponse,response.getString("course_name"));
+//
+//            }
+//        }catch (SQLException e){
+//            System.out.println("Nuk mujta me shtu studentin");
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
     public List<Student> kthejTeGjitheStudentet() {
         String query = "SELECT * FROM studentet";
         List<Student> studentList = new ArrayList<>();

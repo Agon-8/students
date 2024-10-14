@@ -39,7 +39,7 @@ public class PagesaRepository {
         }
 
     }
-    public List<Student> kthejPagesatEStudentit(Long studentId) {
+    public List<Pagesa> kthejPagesatEStudentit(Long studentId) {
         String query = "SELECT * FROM pagesat where studentId = ?";
         List<Pagesa> pagesaList = new ArrayList<>();
 
@@ -69,6 +69,26 @@ public class PagesaRepository {
         }
         return pagesaList;
     }
+    public void updatePagesa(Long id, Pagesa pagesa) {
+        String query = "Update Pagesat set studentId =?, dataEFillimit =?, dataEMbarimit=?, eshtePaguar=?, paguarMe=?  where id = ?";
 
 
+        try (Connection lidhja = this.dbConnection.getConnection();
+             PreparedStatement urdheri = lidhja.prepareStatement(query)
+
+        ) {
+
+            urdheri.setLong(1, pagesa.getStudentId());
+            urdheri.setDate(2, pagesa.getDataEFillimit());
+            urdheri.setDate(3, pagesa.getDataEMbarimit());
+            urdheri.setBoolean(4, pagesa.getEshtePaguar());
+            urdheri.setTimestamp(5, pagesa.getPaguarMe());
+
+            urdheri.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Nuk mujta me ba update pagesen.");
+            e.printStackTrace();
+        }
+    }
 }
