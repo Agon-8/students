@@ -77,12 +77,13 @@ public class PagesaRepository {
              PreparedStatement urdheri = lidhja.prepareStatement(query)
 
         ) {
-
+            System.out.println(pagesa);
             urdheri.setLong(1, pagesa.getStudentId());
             urdheri.setDate(2, pagesa.getDataEFillimit());
             urdheri.setDate(3, pagesa.getDataEMbarimit());
             urdheri.setBoolean(4, pagesa.getEshtePaguar());
             urdheri.setTimestamp(5, pagesa.getPaguarMe());
+            urdheri.setLong(6,id);
 
             urdheri.executeUpdate();
 

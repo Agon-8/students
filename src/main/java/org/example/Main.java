@@ -28,6 +28,7 @@ import org.example.app.db.entity.Student;
 import org.example.app.repository.PagesaRepository;
 import org.example.app.repository.StudentRepository;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -61,6 +62,8 @@ public class Main {
             System.out.println("Press 2 if u want to uptade a Students");
             System.out.println("Press 3 if u want to delete a Students");
             System.out.println("Press 4 if you want to see a Student");
+            System.out.println("Press 5 to make a payment.");
+            System.out.println("Press 6 to add a new Student.");
             System.out.println("Press x if u want to exit");
 
             String input = scanner.nextLine();
@@ -173,6 +176,45 @@ public class Main {
 
                 //if you want to see the payments of students writte y,otherwise press enter
 
+            }else if(input.equals("5")){
+                System.out.println("For which student do you want to pay,tell the id?");
+                String id = scanner.nextLine();
+                Student student = studentRepo.findStudentById(Long.valueOf(id),true);
+                System.out.println(student);
+                for(Pagesa p : student.getPagesat()){
+                    if(!p.getEshtePaguar()) {
+                        p.setEshtePaguar(true);
+                        pagesaRepo.updatePagesa(p.getId(), p);
+                        System.out.println("Payment made successfully and expires at: "+ p.getDataEMbarimit());
+                        break;
+                    }
+                }
+            } else if (input.equals("6")) {
+                System.out.println("Jepni te dhenat tuaja");
+                System.out.println("Emri");
+                String emri1 = scanner.nextLine();
+                System.out.println("Age");
+                int mosha1 = Integer.valueOf(scanner.nextLine());
+                System.out.println("Last Name");
+                String mbiemri1 = scanner.nextLine();
+                System.out.println("Phone");
+                String tel1 = scanner.nextLine();
+                System.out.println("Gender");
+                String gender1 = scanner.nextLine();
+                System.out.println("Birthplace");
+                String vendlindja1 = scanner.nextLine();
+                System.out.println("Course Name");
+                String kursi1 = scanner.nextLine();
+
+                Student newStudent = new Student(0L, emri1, mosha1, mbiemri1, tel1, vendlindja1, gender1.charAt(0), kursi1);
+                studentRepo.createStudent(newStudent);
+
+                newStudent = studentRepo.findLastStudent();
+
+                for(int i = 0; i <= 10;i++){
+                    Pagesa pagesa = new Pagesa(0L,newStudent.getId(),new Date(2024,i+1,1),new Date(2024,i+2,1),false,null);
+                    pagesaRepo.createPagesa(pagesa);
+                }
             }
         }
     }
