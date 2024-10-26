@@ -4,10 +4,9 @@ import org.example.app.db.DBConnection;
 import org.example.app.db.entity.Pagesa;
 import org.example.app.db.entity.Student;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +81,11 @@ public class PagesaRepository {
             urdheri.setDate(2, pagesa.getDataEFillimit());
             urdheri.setDate(3, pagesa.getDataEMbarimit());
             urdheri.setBoolean(4, pagesa.getEshtePaguar());
-            urdheri.setTimestamp(5, pagesa.getPaguarMe());
+            LocalDate currentdate = LocalDate.now();
+            int currentDay = currentdate.getDayOfMonth();
+            Month currentMonth = currentdate.getMonth();
+            int currentYear = currentdate.getYear();
+            urdheri.setTimestamp(5,new Timestamp(currentYear-1900, currentMonth.getValue()-1, currentDay, 0,0,0,0));
             urdheri.setLong(6,id);
 
             urdheri.executeUpdate();

@@ -1,6 +1,7 @@
 package org.example.app.db.entity;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Student {
     private Long id;
@@ -117,16 +118,22 @@ public class Student {
 
     @Override
     public String toString() {
+        String pagesatStr = "";
+        if(this.pagesat != null) {
+            pagesatStr = this.pagesat.stream()
+                    .map(pagesa -> pagesa.getDataEFillimit() + " - " + pagesa.getDataEMbarimit() + " - " + pagesa.getEshtePaguar() + " - " + pagesa.getPaguarMe())
+                    .collect(Collectors.joining("\n"));
+        }
         return "Student{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + name + "\' " +
                 ", age=" + age +
-                ", lastName='" + lastName + '\'' +
+                ", lastName='" + lastName + "\'\n" +
                 ", phone='" + phone + '\'' +
                 ", birthplace='" + birthplace + '\'' +
                 ", gender=" + gender +
-                ", courseName='" + courseName + '\'' +
-                ", pagesat=" + pagesat +
+                ", courseName='" + courseName + "\'\n" +
+                ", pagesat=" + pagesatStr +
                 '}';
     }
 }

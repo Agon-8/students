@@ -27,6 +27,7 @@ import org.example.app.db.entity.Pagesa;
 import org.example.app.db.entity.Student;
 import org.example.app.repository.PagesaRepository;
 import org.example.app.repository.StudentRepository;
+import org.example.app.service.StudentService;
 
 import java.sql.Date;
 import java.util.List;
@@ -48,6 +49,8 @@ public class Main {
 
         StudentRepository studentRepo = new StudentRepository(dbc);
         PagesaRepository pagesaRepo = new PagesaRepository(dbc);
+
+        StudentService studentService = new StudentService(studentRepo,pagesaRepo);
 
 //        studentRepo.createStudent(new Student("Rigon", 17));
 
@@ -181,6 +184,7 @@ public class Main {
                 String id = scanner.nextLine();
                 Student student = studentRepo.findStudentById(Long.valueOf(id),true);
                 System.out.println(student);
+
                 for(Pagesa p : student.getPagesat()){
                     if(!p.getEshtePaguar()) {
                         p.setEshtePaguar(true);
@@ -207,14 +211,8 @@ public class Main {
                 String kursi1 = scanner.nextLine();
 
                 Student newStudent = new Student(0L, emri1, mosha1, mbiemri1, tel1, vendlindja1, gender1.charAt(0), kursi1);
-                studentRepo.createStudent(newStudent);
 
-                newStudent = studentRepo.findLastStudent();
-
-                for(int i = 0; i <= 10;i++){
-                    Pagesa pagesa = new Pagesa(0L,newStudent.getId(),new Date(2024,i+1,1),new Date(2024,i+2,1),false,null);
-                    pagesaRepo.createPagesa(pagesa);
-                }
+                studentService.createStudent(newStudent);
             }
         }
     }
