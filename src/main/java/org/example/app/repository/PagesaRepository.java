@@ -95,4 +95,20 @@ public class PagesaRepository {
             e.printStackTrace();
         }
     }
+    public void deletePaymentByStudentId(Long studentId){
+        String query = "Delete from Pagesat where studentId = ?";
+
+
+        try (Connection lidhja = this.dbConnection.getConnection(); PreparedStatement urdheri = lidhja.prepareStatement(query)
+
+        ) {
+
+            urdheri.setLong(1, studentId);
+            urdheri.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Nuk mujta me fshi pagesen");
+            e.printStackTrace();
+        }
+    }
+
 }
